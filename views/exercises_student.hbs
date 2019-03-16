@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Exercitii :: Elev :: Aplicaţie educaţională de Geometrie</title>
+
+    <style>
+       
+        body {
+          font-size: 14px;
+          font-family: sans-serif;
+        }
+
+        #dashboard-icon {
+          font-size: 24px;
+          padding: 6px;
+        }
+        
+    </style>
+  </head>
+
+  <body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h6 class="my-0 mr-md-auto font-weight-normal">
+            <a id="dashboard-icon" href="/dashboard"><i class="fa fa-bars"></i></a>
+            Aplicaţie educaţională de Geometrie 
+            <span class="badge badge-info">{{full_name}}</span>
+            </h6>
+          
+          <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/">Editor</a>
+            <a class="p-2 text-dark" href="/settings">Setări</a>
+          </nav>
+          <a class="btn btn-danger" href="/logout">Deconectare &nbsp; <i class="fa fa-sign-out-alt"></i></a>
+          </div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+          <h1 class="text-center">Exerciţii</h1>
+        <div class="list-group">
+          {{#each exercises}}
+            <a
+              class="list-group-item list-group-item-action flex-column align-items-start"
+              data-title="{{this.title}}">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                  {{this.title}}
+                  </h5>
+
+                {{#if this.nr_answers}}
+                  <small ><span class="btn btn-primary see-answer-button" data-id="{{this.id}}">Vezi răspunsul</span></small>
+                {{/if}}
+
+                {{#unless this.nr_answers}}
+                <small ><span
+                  class="btn btn-success exercise-item"
+                  data-id="{{this.id}}"
+                  data-title="{{this.title}}"
+                  data-content="{{this.content}}"
+                  data-full-name="{{this.full_name}}"
+                  data-date="{{this.date}}"
+                >Răspunde</span></small>
+                {{/unless}}
+              </div>
+              <p class="mb-1">{{this.content}}</p>
+              <small class="text-muted"><span class="badge badge-danger">{{this.full_name}}</span></small>
+              <small class="text-muted">&nbsp; &nbsp; &nbsp;{{this.date}}</small>
+              
+            </a>
+          {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal template for answering a question -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <p>Profesor: <span id="professorName"></span></p>
+            </div>
+            <div class="form-group">
+              <p>Data: <span id="post_date"></span></p>
+            </div>
+            <div class="form-group">
+              <p><span id="content"></span></p>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Răspunsul tău la întrebare:</label>
+              <textarea class="form-control" id="answer" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Închide</button>
+          <button type="button" class="btn btn-primary" id="send-answer">Trimite răspuns</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal template for viewing the answer -->
+  <div class="modal fade" id="viewAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Vezi răspunsul la exerciţiu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <p>Întrebare: <span id="answer-question"></span></p>
+            </div>
+            <div class="form-group">
+              <p>Răspuns: <span id="answer-answer"></span></p>
+            </div>
+            <div class="form-group">
+              <p>Data răspuns: <span id="answer-date"></span></p>
+            </div>
+            <div class="form-group">
+              <p>Nota: <span id="answer-grade">Nu ai primit încă notă.</span></p>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Închide</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/fontawesome_all.js"></script>
+
+    <script>
+      // global data
+      let gdata = {};
+      let gdataAnswer = {};
+
+      $('.exercise-item').click(function(event){
+        if (event.target !== this)
+          return;
+
+        let exercise = $(event.target),
+            id = exercise.data('id'),
+            title = exercise.data('title'),
+            content = exercise.data('content'),
+            date = exercise.data('date'),
+            full_name = exercise.data('full-name');
+
+        // set global data
+        gdata = {id, title, content, date, full_name};
+        
+        $('#exampleModal').modal('show');
+      });
+
+      $('#exampleModal').on('show.bs.modal', function (event) {
+        var modal = $(this);
+
+
+        modal.find('.modal-title').text(gdata.title);
+        modal.find('#professorName').text(gdata.full_name);
+        modal.find('#post_date').text(gdata.date);
+        modal.find('#content').text(gdata.content);
+      });
+
+      // when the modal closes
+      $('#exampleModal').on('hidden.bs.modal', function (e) {
+        var modal = $(this);
+
+        modal.find('#answer').val('');
+      });
+
+      $('#send-answer').click(function() {
+        let answer = $('#answer').val();
+
+        $.post('/save-answer', {questionId: gdata.id, answer: answer}, function(data) {
+
+          if (data.status === 'SUCCESS') {
+            location.reload();
+          } else {
+            alert( "Mesajul nu a putut fi trimes. Incearca din nou." );
+          }
+        })
+        .fail(function(data) {
+          alert( "Mesajul nu a putut fi trimes. Incearca din nou." );
+        });
+
+        // hide the modal
+        $('#exampleModal').modal('hide');
+      });
+
+      $('#viewAnswerModal').on('show.bs.modal', function (event) {
+        var modal = $(this);
+
+
+        modal.find('.modal-title').text(gdataAnswer.title);
+        modal.find('#answer-question').text(gdataAnswer.question);
+        modal.find('#answer-answer').text(gdataAnswer.answer);
+        modal.find('#answer-date').text(gdataAnswer.answer_date);
+
+        if (gdataAnswer.grade) {
+          modal.find('#answer-grade').text(gdataAnswer.grade);
+        }
+      });
+
+      // handle answer display
+      $('.see-answer-button').click(function(event){
+        if (event.target !== this)
+          return;
+
+        let answer = $(event.target),
+            id = answer.data('id');
+
+        // set global data
+        gdataAnswer = {id};
+
+        $.post('/view-answer', {id}, function(data) {
+          if (data.status === 'SUCCESS') {
+            let answer = data.data.answer,
+                answer_date = data.data.answer_date,
+                question = data.data.question,
+                title = data.data.title,
+                grade = data.data.grade;
+
+            gdataAnswer = {id, answer, answer_date, question, title, grade};
+
+            $('#viewAnswerModal').modal('show');
+          } else {
+            alert( "Raspunsul nu poate fi vazut acum. Incerca mai tarziu." );
+          }
+        })
+        .fail(function(data) {
+          alert( "Raspunsul nu poate fi vazut acum. Incerca mai tarziu." );
+        });
+      });
+    </script>
+  </body>
+</html>

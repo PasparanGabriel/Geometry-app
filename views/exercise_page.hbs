@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Exercitii :: Profesor :: Aplicaţie educaţională de Geometrie</title>
+
+    <style>
+       
+        body {
+          font-size: 14px;
+          font-family: sans-serif;
+        }
+
+        #dashboard-icon {
+          font-size: 24px;
+          padding: 6px;
+        }
+
+        .comment {
+            background: rgb(247, 247, 247);
+            margin-bottom: 10px;
+            border: 1px solid rgb(238, 238, 238);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .delete-grade {
+            color: red;
+            font-wei
+        }
+    </style>
+  </head>
+  
+  <body>
+    <div style="display: none" id="exercise-id">{{exercise.id}}</div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h6 class="my-0 mr-md-auto font-weight-normal">
+            <a id="dashboard-icon" href="/dashboard"><i class="fa fa-bars"></i></a>
+            Aplicaţie educaţională de Geometrie 
+            <span class="badge badge-info">{{full_name}}</span>
+            </h6>
+          
+          <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/">Editor</a>
+            <a class="p-2 text-dark" href="/settings">Setări</a>
+            <a class="p-2 text-dark" href="/exercises">Exerciţii</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card text-center">
+                <div class="card-header">
+                    <h1>{{exercise.title}}</h1>
+                    <p class="text-justify">{{exercise.content}}</p>
+                </div>
+                {{#if answers}}
+                <div class="card-body">
+                    <ul class="list-unstyled text-left">
+                        {{#each answers}}
+                        <li class="media comment">
+                            <div class="media-body">
+                            <h5 class="mt-0 mb-1" style="font-weight: bold;">{{this.full_name}}</h5>
+                            <p style="padding-left: 15px;">{{this.answer}}</p>
+                            <small class="float-right">{{this.date}}</small>
+
+                            <hr style="clear: right;">
+
+                            {{#if this.grade}}
+                                <p class="float-right h2">Nota: {{this.grade}}</p>
+                                <small><a href="/erase-grade/{{this.id}}" class="erase-grade-button"><i class="fa fa-trash-alt"></i>Sterge nota</a></small>
+                            {{/if}}
+
+                            {{#unless this.grade}}
+                            <div class="row" >
+                                <div class="col-sm-9 col-md-9"></div>
+                                <div class="col-sm-3 col-md-3">
+                                    <form action="/save-grade" method="POST">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text">Nota</label>
+                                            </div>
+                                            <select class="custom-select" name="grade">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+
+                                            <input style="display: none;" type="text" name="answer" value="{{this.id}}">
+
+                                            <input style="display: none;" type="text" name="exercise" value="" class="exercise-hidden-field">
+
+                                            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i></button>
+                                        </div>
+
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                            {{/unless}}
+
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                {{/if}}
+                <div class="card-footer text-muted">
+                    {{exercise.date}}
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/fontawesome_all.js"></script>
+
+    <script>
+        window.onload = function() {
+            window.exerciseId = document.getElementById('exercise-id').innerHTML;
+
+            // add exercise id to each delete link
+            $('.erase-grade-button').each(function() {
+                $(this).attr('href', $(this).attr('href') + '/' + exerciseId);
+            });
+
+            $('.exercise-hidden-field').each(function(){
+                $(this).attr('value', exerciseId);
+            });
+        };
+    </script>
+
+  </body>
+</html>

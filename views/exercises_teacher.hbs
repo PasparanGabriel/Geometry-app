@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Exercitii :: Profesor :: Aplicaţie educaţională de Geometrie</title>
+
+    <style>
+       
+        body {
+          font-size: 14px;
+          font-family: sans-serif;
+        }
+
+        #dashboard-icon {
+          font-size: 24px;
+          padding: 6px;
+        }
+        
+    </style>
+  </head>
+
+  <body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+          <h6 class="my-0 mr-md-auto font-weight-normal">
+            <a id="dashboard-icon" href="/dashboard"><i class="fa fa-bars"></i></a>
+            Aplicaţie educaţională de Geometrie 
+            <span class="badge badge-info">{{full_name}}</span>
+            </h6>
+          
+          <nav class="my-2 my-md-0 mr-md-3">
+            <a class="p-2 text-dark" href="/">Editor</a>
+            <a class="p-2 text-dark" href="/settings">Setări</a>
+          </nav>
+          <a class="btn btn-danger" href="/logout">Deconectare &nbsp; <i class="fa fa-sign-out-alt"></i></a>
+          </div>
+      </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+          <h1 class="text-center">Exercitii</h1>
+        </div>
+    </div>
+
+    <div class="row">
+
+          <div class="col-sm-3 col-md-3">
+          </div>
+          <div class="col-sm-6 col-md-6">
+              <form action="/add-exercise" method="POST">
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Titlu: </label>
+                    <input type="text" name="title" class="form-control">
+
+                    <label for="exampleFormControlTextarea2">Cerinţa: </label>
+                    <textarea class="form-control sm-4" name="exercises" rows="3"></textarea><br>
+
+                    <button type="submit" class="btn btn-primary float-right" id="send-exercises">Adaugă exerciţiu</button>
+                </div>
+              </form>
+          </div>
+          <div class="col-sm-3 col-md-3">
+          </div>       
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <ul class="list-group">
+          {{#each exercises}}
+            <li class="list-group-item">
+              <a href="/delete-exercise/{{this.id}}" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>&nbsp;
+              <span style="font-weight: bold;">{{this.title}}</span>
+              <a href="/view-exercise/{{this.id}}" class="btn btn-info float-right">Deschide</a>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/js/fontawesome_all.js"></script>
+  </body>
+</html>

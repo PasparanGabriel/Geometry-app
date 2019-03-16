@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Student :: Aplicaţie educaţională de Geometrie</title>
+
+    <style>
+        #col-canvas {
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        body {
+          font-size: 14px;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #paper {
+          display: inline-block;
+        }
+
+        #dashboard-icon {
+          font-size: 24px;
+          padding: 6px;
+        }
+    </style>
+  </head>
+  
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+            <h6 class="my-0 mr-md-auto font-weight-normal">
+              <a id="dashboard-icon" href="/dashboard"><i class="fa fa-bars"></i></a>
+              Aplicaţie educaţională de Geometrie 
+              <span class="badge badge-info">{{full_name}}</span>
+            </h6>
+            <h6 id="output-message" class="my-0 mr-md-auto font-weight-normal">Cerc</h6>&nbsp;&nbsp;
+            <button id="activateButton" class="btn btn-outline-success">Activează</button>&nbsp;&nbsp;
+            <a id="eraserButton" class="btn btn-outline-primary disabled" href="#">Şterge</a>&nbsp;&nbsp;
+              
+              <div class="btn-group">
+                <a id="dropdown-shapes" class="btn btn-outline-primary dropdown-toggle " href="#" role="button" data-toggle="dropdown">Figuri</a>
+                <div class="dropdown-menu dropdown-menu-right p-2">
+                  <a data-shape="circle" class="p-2 text-dark" href="#">Cerc</a><br>
+                  <a data-shape="triangle" class="p-2 text-dark" href="#">Triunghi</a><br>
+                  <a data-shape="square" class="p-2 text-dark" href="#">Pătrat</a><br>
+                  <a data-shape="rhombus" class="p-2 text-dark" href="#">Romb</a><br>
+                  <a data-shape="rectangle" class="p-2 text-dark" href="#">Dreptunghi</a><br>
+                  <a data-shape="parallelogram" class="p-2 text-dark" href="#">Paralelogram</a><br>
+                  <a data-shape="trapeze" class="p-2 text-dark" href="#">Trapez</a><br>
+                  <a data-shape="pentagon" class="p-2 text-dark" href="#">Pentagon</a><br>
+                  <a data-shape="hexagon" class="p-2 text-dark" href="#">Hexagon</a><br>
+                  <a data-shape="octagon" class="p-2 text-dark" href="#">Octogon</a><br>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+      <div class="col-sm-10 col-md-10">
+        <div id="col-canvas">
+            <canvas id="paper"></canvas>
+        </div>
+      </div>
+
+      <div class="col-sm-2 col-md-2">
+        <div id="div_scale" class="input-group-prepend">
+          <label class="input-group-text">Scalare</label>
+          <select class="custom-select" id="scale">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          <button onclick="scale_grid()" class="btn btn-success"><i class="fas fa-save"></i></button>  
+      </div>
+                
+        <p id="alert_afis" class="alert alert-danger" style="visibility: hidden;"></p>
+        
+        <div id="infoMenu">
+
+        </div>
+      </div> 
+    </div>
+  </div>
+
+    <script>
+      function scale_grid() {
+        let scale = document.getElementById("scale");
+        ShapeStyleConfig['scale_grid'] = scale.options[scale.selectedIndex].value;
+      }
+    </script>
+    
+    <!-- Bootstrap and jQuery scripts -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Configuration files -->
+    <script type="text/javascript" src="/editor/config/shape_config.js"></script>    
+
+    <!-- Utilities -->
+    <script type="text/javascript" src="/editor/transformations.js"></script>    
+    <script type="text/javascript" src="/editor/utils.js"></script>
+
+    <!-- Drawing -->
+    <script type="text/javascript" src="/editor/drawing/basic_shapes.js"></script>
+    <script type="text/javascript" src="/editor/drawing/compound_shapes.js"></script>
+    <script type="text/javascript" src="/editor/drawing/grid.js"></script>
+
+    <!-- Shapes -->
+    <script type="text/javascript" src="/editor/shapes/shape.js"></script>
+    <script type="text/javascript" src="/editor/shapes/circle.js"></script>
+    <script type="text/javascript" src="/editor/shapes/triangle.js"></script>
+    <script type="text/javascript" src="/editor/shapes/square.js"></script>
+    <script type="text/javascript" src="/editor/shapes/rhombus.js"></script>
+    <script type="text/javascript" src="/editor/shapes/rectangle.js"></script>
+    <script type="text/javascript" src="/editor/shapes/parallelogram.js"></script>
+    <script type="text/javascript" src="/editor/shapes/trapeze.js"></script>
+    <script type="text/javascript" src="/editor/shapes/pentagon.js"></script>    
+    <script type="text/javascript" src="/editor/shapes/hexagon.js"></script>
+    <script type="text/javascript" src="/editor/shapes/octagon.js"></script>
+    
+    <script type="text/javascript" src="/editor/main.js"></script>
+
+    <script type="text/javascript" src="/js/fontawesome_all.js"></script>
+  </body>
+</html>

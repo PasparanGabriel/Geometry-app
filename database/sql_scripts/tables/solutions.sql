@@ -1,0 +1,8 @@
+CREATE TABLE solutions (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_question INT NOT NULL,
+    id_user INT NOT NULL,
+    post_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    answer TEXT NOT NULL,
+    grade INT 
+);

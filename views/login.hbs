@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Conectare</title>
+  </head>
+  
+  <body class="text-center">
+    <br><br><br><br>
+    <div class="container">
+      <p><a href="/">Înapoi la pagina principală</a></p>
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+            <form class="form-signin" action="/login" method="POST">
+              <h1 class="h3 mb-3 font-weight-normal">Conectează-te</h1>
+              <input name="username" type="text" id="username" class="form-control mb-2" placeholder="Nume utilizator" required autofocus>
+              <input name="password" type="password" id="password" class="form-control mb-4" placeholder="Parola" required>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Conectare</button>
+              {{#if hasError}}
+                <h1 class="h4 mb-3 font-weight-normal" style="color: red; font-weight: bold;">{{errorMessage}}</h1>
+              {{/if}}
+          </form>
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+  </body>
+</html>

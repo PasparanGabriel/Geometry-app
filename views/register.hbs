@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Înregistrare</title>
+  </head>
+  
+  <body class="text-center">
+    <br><br><br><br>
+    <p><a href="/">Înapoi la pagina principală</a></p>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 col-md-3">
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <form class="form-signin" action="/register" method="POST">
+              <h1 class="h3 mb-3 font-weight-normal">Înregistrează-te</h1>
+
+              <!-- First name -->
+              <label for="first_name" class="sr-only">Nume</label>
+              <input
+                  {{#if hasError}}
+                    {{#if errors.first_name}}
+                      style="border: 2px solid red;" 
+                    {{/if}}
+                  {{/if}}
+                  name="first_name" type="text" id="first_name" class="form-control mb-2" placeholder="Nume" autofocus
+                  {{#if hasError}}
+                      value="{{values.first_name}}"
+                  {{/if}}>
+
+              <!-- Last name -->
+              <label for="last_name" class="sr-only">Prenume</label>
+              <input 
+                  {{#if hasError}}
+                    {{#if errors.last_name}}
+                      style="border: 2px solid red;" 
+                    {{/if}}
+                  {{/if}}
+              name="last_name" type="text" id="last_name" class="form-control mb-2" placeholder="Prenume"
+                  {{#if hasError}}
+                      value="{{values.last_name}}"
+                  {{/if}}>
+
+              <!-- Username -->
+              <label for="username" class="sr-only">Nume utilizator</label>
+              <input 
+                  {{#if hasError}}
+                    {{#if errors.username}}
+                      style="border: 2px solid red;" 
+                    {{/if}}
+                  {{/if}}
+                  name="username" type="text" id="username" class="form-control mb-2" placeholder="Nume utilizator" required
+                  {{#if hasError}}
+                      value="{{values.username}}"
+                  {{/if}}>
+
+              <!-- Password -->
+              <label for="password" class="sr-only">Parola</label>
+              <input 
+                  {{#if hasError}}
+                    {{#if errors.password}}
+                      style="border: 2px solid red;" 
+                    {{/if}}
+                  {{/if}}
+                name="password" type="password" id="password" class="form-control mb-2" placeholder="Parola" required>
+
+              <!-- Retype Password -->
+              <label for="passwordRetype" class="sr-only">Parola</label>
+              <input 
+                  {{#if hasError}}
+                    {{#if errors.passwordRetype}}
+                      style="border: 2px solid red;" 
+                    {{/if}}
+                  {{/if}}
+                name="passwordRetype" type="password" id="passwordRetype" class="form-control mb-2" placeholder="Reintrodu Parola" required>
+
+              <!-- User Type -->
+              <select id="user_type" name="user_type" class="custom-select mb-3">
+                <option value="student">Elev</option>
+                <option value="teacher">Profesor</option>
+              </select>
+
+              <!-- Login button -->
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Conectare</button>
+
+              {{#if hasError}}
+                <p class="mb-3 font-weight-normal" style="color: red; font-weight: bold;">EROARE: {{errorMessage}}</p>
+              {{/if}}
+          </form>
+        </div>
+        <div class="col-sm-3 col-md-3">
+        </div>
+      </div>
+    </div
+
+    <!-- Scripts -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+  </body>
+</html>
